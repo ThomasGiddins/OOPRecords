@@ -9,6 +9,12 @@ namespace OOPRecords.Model
     {
         private List<Student> Students = new List<Student>();
 
+        public StudentRepository()
+        {
+            var initilazer = new Initializer();
+            initilazer.Seed(this);
+        }
+
         public void Add(Student s)
         {
             Students.Add(s);

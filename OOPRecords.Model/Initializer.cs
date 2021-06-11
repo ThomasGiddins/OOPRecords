@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Data.Entity;
 
 namespace OOPRecords.Model
 {
-    class Initializer
+    public class Initializer : DropCreateDatabaseIfModelChanges<DatabaseContext>
     {
-        public void Seed(StudentRepository students)
+        protected override void Seed(DatabaseContext context)
         {
+            var students = context.Students;
             var alg = NewStudent(students, "Alie", "Algol", "19/02/2004");
             var frt = NewStudent(students, "Forrest", "Fortran", "22/09/2003");
             var jav = NewStudent(students, "James", "Java", "24/03/2004");
@@ -20,7 +22,7 @@ namespace OOPRecords.Model
             var cob = NewStudent(students, "Corinie", "Cobol", "28/02/2003");
         }   
 
-        private Student NewStudent(StudentRepository students, string firstName, string lastName, string dob)
+        private Student NewStudent(DbSet<Student> students, string firstName, string lastName, string dob)
         {
             var s = new Student();
             s.FirstName = firstName;

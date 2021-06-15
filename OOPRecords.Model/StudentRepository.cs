@@ -9,31 +9,22 @@ namespace OOPRecords.Model
 {
     public class StudentRepository
     {
-        private List<Student> Students = new List<Student>();
+        private DatabaseContext Context;
 
-        public StudentRepository()
+        public StudentRepository(DatabaseContext context)
         {
-            if (File.Exists(fileName))
-            {
-                Load();
-            }
-            else
-            {
-                var initilazer = new Initializer();
-                initilazer.Seed(this);
-                SaveAll();
-            }
-
+            Context = context;
         }
 
         public void Add(Student s)
         {
-            Students.Add(s);
+            Context.Students.Add(s);
+            Context.SaveChanges();
         }
 
         public IEnumerable<Student> AllStudents()
         {
-            return Students;
+            return Context.Students;
         }
 
         public IEnumerable<Student> FindStudentByLastName(string lastName)
@@ -50,28 +41,10 @@ namespace OOPRecords.Model
             s.LastName = lastName;
             s.DateOfBirth = dob;
             Add(s);
-            SaveAll();
             return s;
         }
 
-        private const string fileName = @"C:\Users\thoma\Documents\Computer Science ALevel\OOPRecords\OOPRecords.ConsoleUI\StudentsFile.json";
-        public void Load()
-        {
-            using (StreamReader reader = new StreamReader(fileName))
-            {
-                string json = reader.ReadToEnd();
-                Students = JsonSerializer.Deserialize<List<Student>>(json);
-            }
-        }
-        public void SaveAll()
-        {
-            using (StreamWriter writer = new StreamWriter(fileName))
-            {
-                var options = new JsonSerializerOptions { WriteIndented = true };
-                string json = JsonSerializer.Serialize(Students, options);
-                writer.Write(json);
-                writer.Flush();
-            }
-        }
+        private const string fileName = @"\\ran\qe2root\QE2StudentDocs\Cohort_2008\08thomasgiddins\Documents\A Level Computer Science\OOP Records\OOPRecords.ConsoleUI\StudentsFile.json";
+        
     }
 }

@@ -8,8 +8,7 @@ namespace OOPRecords.ConsoleUI
     {
         static void Main()
         {
-            var context = new DatabaseContext("OOPRecords");
-            var students = new StudentRepository(context);
+            var students = new StudentRepository();
             while (true)
             {
                 Console.Clear();
@@ -30,7 +29,6 @@ namespace OOPRecords.ConsoleUI
                 Console.ReadKey();
             }
         }
-
         private static void AllStudents(StudentRepository students)
         {
             ConsolePlus.WriteList(students.AllStudents(), "\n");
@@ -49,6 +47,5 @@ namespace OOPRecords.ConsoleUI
             DateTime dob = ConsolePlus.ReadDate("Date Of Birth: ", -10000, -1000);
             students.NewStudent(firstName, lastName, dob);
         }
-        
     }
 }

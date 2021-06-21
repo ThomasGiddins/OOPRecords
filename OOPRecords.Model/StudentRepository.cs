@@ -9,31 +9,28 @@ namespace OOPRecords.Model
 {
     public class StudentRepository
     {
-        private DatabaseContext Context;
+        private List<Student> Students = new List<Student>();
 
-        public StudentRepository(DatabaseContext context)
+        public StudentRepository()
         {
-            Context = context;
+            var initializer = new Initializer();
+            initializer.Seed(this);
         }
 
         public void Add(Student s)
         {
-            Context.Students.Add(s);
-            Context.SaveChanges();
+            Students.Add(s);
         }
-
         public IEnumerable<Student> AllStudents()
         {
-            return Context.Students;
+            return Students;
         }
-
         public IEnumerable<Student> FindStudentByLastName(string lastName)
         {
             return from s in AllStudents()
                    where s.LastName.ToUpper().Contains(lastName.ToUpper())
                    select s;
         }
-
         public Student NewStudent(string firstName, string lastName, DateTime dob)
         {
             var s = new Student();
@@ -43,8 +40,11 @@ namespace OOPRecords.Model
             Add(s);
             return s;
         }
-
-        private const string fileName = @"\\ran\qe2root\QE2StudentDocs\Cohort_2008\08thomasgiddins\Documents\A Level Computer Science\OOP Records\OOPRecords.ConsoleUI\StudentsFile.json";
-        
     }
+}
+//private const string fileName = @"C:\Users\thoma\Documents\Computer Science ALevel\OOPRecords\OOPRecords.ConsoleUI\StudentsFile.json";
+        //private const string fileName = @"\\ran\qe2root\QE2StudentDocs\Cohort_2008\08thomasgiddins\Documents\A Level Computer Science\OOP Records\OOPRecords.ConsoleUI\StudentsFile.json";
+        
+
+    
 }
